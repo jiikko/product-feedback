@@ -1,8 +1,8 @@
-name: Bug Report
-description: 不具合や問題を報告する
-title: "[Bug] "
+name: Support Question
+description: 使い方や挙動について問い合わせる
+title: "[Support] "
 labels:
-  - bug
+  - question
 body:
   - type: dropdown
     id: product
@@ -21,53 +21,42 @@ body:
     id: app_version
     attributes:
       label: アプリバージョン
-      description: "例: 1.2.3"
+      description: 分かる場合は記入してください。
       placeholder: 1.2.3
     validations:
-      required: true
+      required: false
 
   - type: input
     id: os_device
     attributes:
       label: OSバージョン / 端末名
-      description: "例: iOS 18.2 / iPhone 15 Pro"
       placeholder: iOS 18.2 / iPhone 15 Pro
     validations:
-      required: true
+      required: false
 
   - type: textarea
-    id: steps
+    id: question
     attributes:
-      label: 再現手順
-      description: 問題が発生するまでの手順を記入してください。
-      placeholder: |
-        1. ...を開く
-        2. ...をタップ
-        3. ...が発生する
+      label: お問い合わせ内容
+      description: 困っていることや確認したいことを記入してください。
+      placeholder: できるだけ具体的に記入してください。
     validations:
       required: true
 
   - type: textarea
-    id: expected
+    id: tried
     attributes:
-      label: 期待した結果
-      placeholder: 本来どうなるべきだったかを記入してください。
+      label: 試したこと
+      description: すでに試した手順があれば記入してください。
+      placeholder: "例: 再起動、再インストール など"
     validations:
-      required: true
-
-  - type: textarea
-    id: actual
-    attributes:
-      label: 実際の結果
-      placeholder: 実際に何が起きたかを記入してください。
-    validations:
-      required: true
+      required: false
 
   - type: textarea
     id: additional_context
     attributes:
       label: 補足情報
-      description: 必要に応じてスクリーンショットや動画、ログを添付してください。
+      description: 必要に応じてスクリーンショットや動画を添付してください。
       placeholder: 追加情報があれば記入してください。
     validations:
       required: false
