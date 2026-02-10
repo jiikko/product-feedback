@@ -1,0 +1,68 @@
+name: Bug Report
+description: バグや問題を報告する
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+      id: product
+          attributes:
+                label: Product
+                      description: Which product is this about?
+                            options:
+                                    - BabyNote
+                                            - SnapTrim
+                                                    - ThumbnailThumb
+                                                            - Multi-Video Player for Dropbox
+                                                                validations:
+                                                                      required: true
+
+                                                                        - type: textarea
+                                                                            id: description
+                                                                                attributes:
+                                                                                      label: Bug Description
+                                                                                            description: バグの詳細を記述してください
+                                                                                                  placeholder: 何が起こりましたか?
+                                                                                                      validations:
+                                                                                                            required: true
+                                                                                                            
+                                                                                                              - type: textarea
+                                                                                                                  id: steps
+                                                                                                                      attributes:
+                                                                                                                            label: Steps to Reproduce
+                                                                                                                                  description: バグを再現する手順を記述してください
+                                                                                                                                        placeholder: |
+                                                                                                                                                1. ...に移動
+                                                                                                                                                        2. ...をクリック
+                                                                                                                                                                3. ...が発生
+                                                                                                                                                                    validations:
+                                                                                                                                                                          required: true
+                                                                                                                                                                          
+                                                                                                                                                                            - type: textarea
+                                                                                                                                                                                id: expected
+                                                                                                                                                                                    attributes:
+                                                                                                                                                                                          label: Expected Behavior
+                                                                                                                                                                                                description: 期待される動作は何ですか?
+                                                                                                                                                                                                      placeholder: 本来どうあるべきですか?
+                                                                                                                                                                                                          validations:
+                                                                                                                                                                                                                required: false
+                                                                                                                                                                                                                
+                                                                                                                                                                                                                  - type: textarea
+                                                                                                                                                                                                                      id: environment
+                                                                                                                                                                                                                          attributes:
+                                                                                                                                                                                                                                label: Environment
+                                                                                                                                                                                                                                      description: 使用環境について教えてください
+                                                                                                                                                                                                                                            placeholder: |
+                                                                                                                                                                                                                                                    - OS: (e.g., macOS 14.0, Windows 11, iOS 17)
+                                                                                                                                                                                                                                                            - Browser: (e.g., Chrome 120, Safari 17)
+                                                                                                                                                                                                                                                                    - App Version: (if applicable)
+                                                                                                                                                                                                                                                                        validations:
+                                                                                                                                                                                                                                                                              required: false
+                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                - type: textarea
+                                                                                                                                                                                                                                                                                    id: additional
+                                                                                                                                                                                                                                                                                        attributes:
+                                                                                                                                                                                                                                                                                              label: Additional Context
+                                                                                                                                                                                                                                                                                                    description: その他の関連情報があれば記述してください
+                                                                                                                                                                                                                                                                                                          placeholder: スクリーンショット、ログなど
+                                                                                                                                                                                                                                                                                                              validations:
+                                                                                                                                                                                                                                                                                                                    required: false
