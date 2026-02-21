@@ -5,10 +5,10 @@ This repository serves as a contact point for inquiries, bug reports, and featur
 
 ## 対象プロダクト / Supported Products
 
-- ベビーノート / BabyNote
-- SnapTrim
-- サムネイルのサム / ThumbnailThumb
-- Multi-Video Player for Dropbox
+- [ベビーノート / BabyNote](https://jiikko.com/baby-note/)
+- [SnapTrim](https://jiikko.com/snaptrim/)
+- [サムネイルのサム / ThumbnailThumb](https://jiikko.com/thumbnail-thumb/)
+- [Multi-Video Player for Dropbox](https://jiikko.com/dropbox-video-player/)
 
 ## お問い合わせ方法 / How to Submit
 
