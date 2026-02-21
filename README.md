@@ -45,5 +45,4 @@ Bug fixes are generally prioritized over feature requests.
 ## セキュリティに関する報告 / Security Issues
 
 脆弱性などセキュリティ問題は Issue に公開せず、以下へご連絡ください。
-For security vulnerabilities, please do not open a public Issue. Contact us at:
-`support@example.com`（必要に応じて実際の連絡先に変更してください / Replace with your actual contact address）
+For security vulnerabilities, please do not open a public Issue. Contact us at: `n905i.1214@gmail.com`
