@@ -5,9 +5,9 @@ This repository serves as a contact point for inquiries, bug reports, and featur
 
 ## 対象プロダクト / Supported Products
 
-- BabyNote（ベビーノート）
+- ベビーノート / BabyNote
 - SnapTrim
-- ThumbnailThumb（サムネイルのサム）
+- サムネイルのサム / ThumbnailThumb
 - Multi-Video Player for Dropbox
 
 ## お問い合わせ方法 / How to Submit
