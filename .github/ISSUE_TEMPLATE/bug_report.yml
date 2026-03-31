@@ -11,9 +11,11 @@ body:
       description: 対象のプロダクトを選択してください。
       options:
         - BabyNote
+        - DotfilesSyncer
+        - DualNote
+        - Multi-Video Player for Dropbox
         - SnapTrim
         - ThumbnailThumb
-        - Multi-Video Player for Dropbox
     validations:
       required: true
 
