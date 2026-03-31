@@ -9,8 +9,8 @@ This repository serves as a contact point for inquiries, bug reports, and featur
 - [SnapTrim](https://jiikko.com/snaptrim/)
 - [サムネイルのサム / ThumbnailThumb](https://jiikko.com/thumbnail-thumb/)
 - [Multi-Video Player for Dropbox](https://jiikko.com/dropbox-video-player/)
-- [DotfilesSyncer](https://apps.apple.com/jp/app/dotfilessyncer/id6759445122?mt=12)
-- [DualNote](https://apps.apple.com/jp/app/dualnote/id6759564454?mt=12)
+- [DotfilesSyncer](https://jiikko.com/dotfiles-syncer/)
+- [DualNote](https://jiikko.com/dualnote/)
 
 ## お問い合わせ方法 / How to Submit
 
