@@ -1,6 +1,7 @@
 # Product Feedback
 
 このリポジトリは、各プロダクトへのお問い合わせ・不具合報告・機能要望の受付窓口です。
+
 This repository serves as a contact point for inquiries, bug reports, and feature requests for our products.
 
 ## 対象プロダクト / Supported Products
@@ -16,6 +17,7 @@ This repository serves as a contact point for inquiries, bug reports, and featur
 ## お問い合わせ方法 / How to Submit
 
 `Issues` の `New issue` から、目的に合ったフォームを選んで投稿してください。
+
 Go to `Issues` > `New issue` and select the appropriate form.
 
 - 不具合報告 / Bug Report
@@ -35,6 +37,7 @@ Go to `Issues` > `New issue` and select the appropriate form.
 ## 注意事項 / Notes
 
 個人情報・機密情報（メールアドレス、電話番号、アカウント情報など）は投稿しないでください。
+
 Please do not include personal or sensitive information (email addresses, phone numbers, account details, etc.).
 
 ## 返信ポリシー / Response Policy
@@ -48,4 +51,5 @@ Bug fixes are generally prioritized over feature requests.
 ## セキュリティに関する報告 / Security Issues
 
 脆弱性などセキュリティ問題は Issue に公開せず、以下へご連絡ください。
+
 For security vulnerabilities, please do not open a public Issue. Contact us at: `n905i.1214@gmail.com`
