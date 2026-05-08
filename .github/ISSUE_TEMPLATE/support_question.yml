@@ -16,6 +16,7 @@ body:
         - Multi-Video Player for Dropbox
         - SnapTrim
         - ThumbnailThumb
+        - Video Grid Player
     validations:
       required: true
 

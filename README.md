@@ -11,6 +11,7 @@ This repository serves as a contact point for inquiries, bug reports, and featur
 - [Multi-Video Player for Dropbox](https://jiikko.com/dropbox-video-player/)
 - [DotfilesSyncer](https://jiikko.com/dotfiles-syncer/)
 - [DualNote](https://jiikko.com/dualnote/)
+- [Video Grid Player](https://jiikko.com/video-grid-player/)
 
 ## お問い合わせ方法 / How to Submit
 
