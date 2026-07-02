@@ -13,6 +13,7 @@ This repository serves as a contact point for inquiries, bug reports, and featur
 - [DotfilesSyncer](https://jiikko.com/dotfiles-syncer/)
 - [DualNote](https://jiikko.com/dualnote/)
 - [Video Grid Player](https://jiikko.com/video-grid-player/)
+- [Obaket](https://jiikko.com/obaket/)
 
 ## お問い合わせ方法 / How to Submit
 
