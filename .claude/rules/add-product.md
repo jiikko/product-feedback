@@ -10,6 +10,7 @@
 | `.github/ISSUE_TEMPLATE/bug_report.yml` | `id: product` の `options:` | アルファベット順 |
 | `.github/ISSUE_TEMPLATE/feature_request.yml` | `id: product` の `options:` | アルファベット順 |
 | `.github/ISSUE_TEMPLATE/support_question.yml` | `id: product` の `options:` | アルファベット順 |
+| `.github/labels.yml` | `product: <名前>` のラベル (名前はフォームの選択肢と完全一致) | 選択肢と同じ順 |
 
 ### 更新不要なファイル
 
@@ -17,13 +18,20 @@
 
 ## 確認手順
 
-追加後、以下のコマンドで全ファイルに新プロダクト名が入っているか必ず検証する:
+追加後、以下のコマンドで 5 か所の一覧が揃っているかを検証する (CI の `check-products` も同じものを走らせる):
 
 ```bash
-grep -rn "<新プロダクト名>" README.md .github/
+ruby bin/check-products
 ```
 
-ヒット件数が **4 件 (README 1 + Issue テンプレート 3)** であれば OK。少なければどこかが漏れている。
+`OK: プロダクト N 件を…照合した` の N が追加後の件数なら OK。NG なら、出力にどのファイルの何が足りない / 余分かが出る。
+
+## ラベルの付き方
+
+- `.github/labels.yml` を master へ push すると `labels-sync` ワークフローが GitHub 側のラベルを作る / 更新する
+  (skip-delete。ファイルから消してもラベル自体は消えないので、消すときは Web か `gh label delete` で)
+- Issue が立つ / 本文が編集されると `product-label` ワークフローが Product の選択に合わせて `product: <名前>` を付け替える。
+  `labels.yml` に無い名前は付けず、ワークフローのログに warning を出す
 
 ## やらないこと
 

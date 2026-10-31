@@ -1,0 +1,87 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# プロダクトの一覧が置かれている 5 か所が食い違っていないかを検査する。
+#   - .github/ISSUE_TEMPLATE/*.yml (config.yml を除く全フォーム) の Product の選択肢
+#   - .github/labels.yml の `product: <名前>` のラベル
+#   - README.md の「対象プロダクト / Supported Products」の一覧
+# Issue フォームの選択肢は別ファイルから読み込めないので一本化できず、手で揃えたものをここで機械的に確かめる。
+# 使い方: ruby bin/check-products  (CI は .github/workflows/check-products.yml)
+
+require 'yaml'
+
+ROOT = File.expand_path('..', __dir__)
+TEMPLATES = Dir.glob(File.join(ROOT, '.github/ISSUE_TEMPLATE/*.yml')).sort
+                .map { |f| f.delete_prefix("#{ROOT}/") }
+                .reject { |rel| File.basename(rel) == 'config.yml' }
+LABELS = '.github/labels.yml'
+README = 'README.md'
+PREFIX = 'product: '
+
+errors = []
+
+def load_yaml(rel)
+  YAML.safe_load(File.read(File.join(ROOT, rel)))
+end
+
+template_options = TEMPLATES.to_h do |rel|
+  body = load_yaml(rel).fetch('body', [])
+  field = body.find { |item| item['id'] == 'product' }
+  options = field && field.dig('attributes', 'options')
+  if options.nil? || options.empty?
+    errors << "#{rel}: id: product の options が見つからない"
+    options = []
+  else
+    # .github/workflows/product-label.yml は本文の「### Product」の次の 1 行を 1 つのプロダクト名として読む。
+    # 見出し名・dropdown・単一選択のどれかが崩れるとラベル付けが黙って止まるので、ここで固定する。
+    errors << "#{rel}: id: product が dropdown でない (type: #{field['type'].inspect})" unless field['type'] == 'dropdown'
+    unless field.dig('attributes', 'label') == 'Product'
+      errors << "#{rel}: id: product の label が \"Product\" でない (#{field.dig('attributes', 'label').inspect})。product-label ワークフローが読めなくなる"
+    end
+    errors << "#{rel}: id: product が multiple: true (複数選択はラベル付けが読めない)" if field.dig('attributes', 'multiple')
+  end
+  [rel, options]
+end
+errors << '.github/ISSUE_TEMPLATE/ にフォームが 1 件も無い' if TEMPLATES.empty?
+
+reference = template_options.values.first || []
+template_options.each do |rel, options|
+  errors << "#{rel}: options がアルファベット順でない: #{options.inspect}" unless options == options.sort
+  next if options == reference
+
+  errors << "#{rel}: options が #{TEMPLATES.first} と違う (足りない: #{(reference - options).inspect} / 余分: #{(options - reference).inspect})"
+end
+
+labels = load_yaml(LABELS).map { |l| l['name'] }
+product_labels = labels.select { |n| n.start_with?(PREFIX) }.map { |n| n.delete_prefix(PREFIX) }
+unless product_labels.sort == reference.sort
+  errors << "#{LABELS}: product ラベルが Issue フォームの選択肢と違う (足りない: #{(reference - product_labels).inspect} / 余分: #{(product_labels - reference).inspect})"
+end
+# GitHub はラベル名の大文字小文字を区別しないので、小文字にそろえて重複を見る
+dups = labels.group_by(&:downcase).select { |_, v| v.size > 1 }.values
+errors << "#{LABELS}: 同じ名前 (大文字小文字を無視) のラベルが重複している: #{dups.inspect}" unless dups.empty?
+
+readme = File.read(File.join(ROOT, README))
+section = readme[/^## 対象プロダクト.*?\n(.*?)(?=^## )/m, 1]
+if section.nil?
+  errors << "#{README}: 「## 対象プロダクト」の節が見つからない"
+else
+  # 行は `- [表示名](LP の URL)`。表示名は「日本語名 / 英語名」か「英語名」で、英語名がフォームの選択肢と完全一致する
+  readme_names = section.lines.grep(/^- \[/).map { |l| l[/^- \[([^\]]*)\]/, 1].to_s.split(' / ').last.to_s.strip }
+  unless readme_names.sort == reference.sort
+    errors << "#{README}: 対象プロダクトの一覧がフォームの選択肢と違う (足りない: #{(reference - readme_names).inspect} / 余分: #{(readme_names - reference).inspect})"
+  end
+end
+
+if reference.empty?
+  errors << '検査したプロダクトが 0 件 (選択肢を読めていない)'
+end
+
+if errors.empty?
+  puts "OK: プロダクト #{reference.size} 件を Issue フォーム #{TEMPLATES.size} 件・#{LABELS}・#{README} で照合した"
+  exit 0
+end
+
+warn 'NG: プロダクトの一覧が食い違っている (直し方は .claude/rules/add-product.md)'
+errors.each { |e| warn "  - #{e}" }
+exit 1

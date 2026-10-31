@@ -1,0 +1,68 @@
+name: product-label
+
+# Issue フォームで選ばれた Product に応じて `product: <名前>` のラベルを付ける。
+# 本文を編集して Product を変えたら、ラベルも付け替える。
+#
+# 🚨 Issue の本文は誰でも書ける (public repo)。本文を `${{ github.event.issue.body }}` で run: やスクリプトに
+# 埋め込まない (コマンド注入になる)。スクリプトの中で context.payload から読み、リポジトリに実在する
+# `product: ` のラベル名と完全一致したときだけ付ける (本文から任意のラベルを作らせない)。
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const PREFIX = 'product: ';
+            const issue = context.payload.issue;
+            // 本文が変わっていない編集 (タイトルだけ等) では何もしない。管理者が手で付け替えたラベルを本文の選択で戻さない
+            if (context.payload.action === 'edited' && !(context.payload.changes && context.payload.changes.body)) {
+              core.info(`#${issue.number}: 本文以外の編集。何もしない`);
+              return;
+            }
+            const body = issue.body || '';
+
+            // Issue フォームは「### Product」の見出しの後に、空行を挟んで選んだ値を 1 行で出す。
+            const m = body.match(/^###[ \t]+Product[ \t]*\r?\n(?:[ \t]*\r?\n)*([^\r\n]+)/m);
+            if (!m) {
+              core.info(`#${issue.number}: Product の欄が無い (フォーム以外から立った Issue)。何もしない`);
+              return;
+            }
+            const product = m[1].trim();
+            if (product === '_No response_' || product.startsWith('#')) {
+              core.info(`#${issue.number}: Product が未選択。何もしない`);
+              return;
+            }
+
+            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, per_page: 100,
+            });
+            const known = new Set(repoLabels.map(l => l.name).filter(n => n.startsWith(PREFIX)));
+            const want = PREFIX + product;
+            if (!known.has(want)) {
+              core.warning(`#${issue.number}: Product ${JSON.stringify(product)} に対応するラベル ${JSON.stringify(want)} がリポジトリに無い。.github/labels.yml とフォームの選択肢を揃える (bin/check-products)`);
+              return;
+            }
+
+            const current = (issue.labels || []).map(l => l.name);
+            for (const name of current) {
+              if (name.startsWith(PREFIX) && name !== want) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, name,
+                });
+                core.info(`#${issue.number}: ${name} を外した`);
+              }
+            }
+            if (!current.includes(want)) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, labels: [want],
+              });
+              core.info(`#${issue.number}: ${want} を付けた`);
+            }

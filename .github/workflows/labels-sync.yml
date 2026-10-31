@@ -1,0 +1,25 @@
+name: labels-sync
+
+# .github/labels.yml をリポジトリのラベルへ同期する。
+# skip-delete: ファイルから消しただけでは GitHub 側のラベルを消さない (付いている Issue から黙って外れるのを避ける)。
+on:
+  push:
+    branches: [master]
+    paths:
+      - .github/labels.yml
+      - .github/workflows/labels-sync.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: crazy-max/ghaction-github-labeler@548a7c3603594ec17c819e1239f281a3b801ab4d # v6.0.0
+        with:
+          yaml-file: .github/labels.yml
+          skip-delete: true

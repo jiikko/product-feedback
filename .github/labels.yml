@@ -1,0 +1,61 @@
+# リポジトリのラベルの正本。master へ push すると .github/workflows/labels-sync.yml が GitHub 側へ同期する。
+# 同期は skip-delete なので、ここから消しただけでは GitHub 側のラベルは消えない (消すときは Web か gh label delete で)。
+#
+# `product: <名前>` のラベルは Issue フォームの Product の選択肢と 1 対 1。
+# Issue が立つと .github/workflows/product-label.yml が選択された Product のラベルを付ける。
+# 一覧の食い違いは bin/check-products が落とす (手順は .claude/rules/add-product.md)。
+
+# --- GitHub の既定ラベル (Issue フォームの labels: で使う bug / enhancement / question を含む) ---
+- name: bug
+  color: d73a4a
+  description: Something isn't working
+- name: documentation
+  color: 0075ca
+  description: Improvements or additions to documentation
+- name: duplicate
+  color: cfd3d7
+  description: This issue or pull request already exists
+- name: enhancement
+  color: a2eeef
+  description: New feature or request
+- name: good first issue
+  color: 7057ff
+  description: Good for newcomers
+- name: help wanted
+  color: "008672"
+  description: Extra attention is needed
+- name: invalid
+  color: e4e669
+  description: This doesn't seem right
+- name: question
+  color: d876e3
+  description: Further information is requested
+- name: wontfix
+  color: ffffff
+  description: This will not be worked on
+
+# --- プロダクト (Issue フォームの Product の選択肢と同じ名前・同じ順) ---
+- name: "product: BabyNote"
+  color: 1d76db
+  description: ベビーノート / BabyNote
+- name: "product: DotfilesSyncer"
+  color: 1d76db
+  description: DotfilesSyncer
+- name: "product: DualNote"
+  color: 1d76db
+  description: DualNote
+- name: "product: Multi-Video Player for Dropbox"
+  color: 1d76db
+  description: Multi-Video Player for Dropbox
+- name: "product: Obaket"
+  color: 1d76db
+  description: Obaket
+- name: "product: SnapTrim"
+  color: 1d76db
+  description: SnapTrim
+- name: "product: ThumbnailThumb"
+  color: 1d76db
+  description: サムネイルのサム / ThumbnailThumb
+- name: "product: Video Grid Player"
+  color: 1d76db
+  description: Video Grid Player
